@@ -1,16 +1,16 @@
 '''
 
-Program:		RegistroDelconsumidor.py
+Program:	RegistroDelconsumidor.py
 
 Description:	Program which unsubscribes all cellphone numbers from given area code (lada) from annoying sms ads
-				using http://repep.profeco.gob.mx/registrar_telefono.jsp 's service
+		using http://repep.profeco.gob.mx/registrar_telefono.jsp 's service
 
-More Info:		http://repep.profeco.gob.mx/index.jsp 
-				REPEP REgistro Publico para Evitar Publicidad => Public registry to avoid ads
-				https://www.facebook.com/Frontera.info/videos/10153530275841961/ 
-				https://www.youtube.com/watch?v=7TW4lNE45hk
+More Info:	http://repep.profeco.gob.mx/index.jsp 
+		REPEP REgistro Publico para Evitar Publicidad => Public registry to avoid ads
+		https://www.facebook.com/Frontera.info/videos/10153530275841961/ 
+		https://www.youtube.com/watch?v=7TW4lNE45hk
 
-Date:			April 13th, 2016
+Date:		April 13th, 2016
 '''
 
 import httplib, urllib

@@ -19,15 +19,18 @@ headers = {'Host':'repep.profeco.gob.mx',
 			'Accept':'text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8',
 			'Referer':'http://repep.profeco.gob.mx/registrar_telefono.jsp'
 		 	}
-
+payload_format = "Usuario=CONSUMIDOR&lada={}&phone={}&phonee={}&ext=&checkbox1=Comercio&checkbox2=Telecomunicaciones\
+			&checkbox3=Tur%EDstico&Nsector=3&Pagina=1&telefono=&Submit=Aceptar"
+host = "repep.profeco.gob.mx:80" # NO 'protocol://'
+receiver_script = '/RegistroConsumidor'
 
 lada = '686'
 for i in range(1000000,9999999):
 	phone = format(i, '07')
-	payload ="Usuario=CONSUMIDOR&lada={}&phone={}&phonee={}&ext=&checkbox1=Comercio&checkbox2=Telecomunicaciones&Nsector=3&Pagina=1&telefono=&Submit=Aceptar".format(lada, phone, lada+phone);
+	payload = payload_format.format(lada, phone, lada+phone)
 
-	conn = httplib.HTTPConnection("repep.profeco.gob.mx:80")
-	conn.request("POST", "/RegistroConsumidor", payload, headers)
+	conn = httplib.HTTPConnection(host)
+	conn.request("POST", receiver_script, payload, headers)
 	response = conn.getresponse()
 	print response.status, response.reason, response.read()
 

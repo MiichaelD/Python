@@ -31,7 +31,8 @@ sleep_time = 5
 receiver_script = '/RegistroConsumidor'
 
 lada = '686'
-for i in range(1000000,9999999):
+error_count = 0
+for i in range(2018363,9999999):
 	phone = format(i, '07')
 	payload = payload_format.format(lada, phone, lada, phone)
 	while True:
@@ -42,15 +43,21 @@ for i in range(1000000,9999999):
 			data = response.read()
 			print lada+phone, ': ', response.status, response.reason, data
 
-			if len(data) > 0:
-				break;
+			if len(data) == 0:
+				error_count = error_count + 1;
+				print '\tEmpty data, trying again ({})...'.format(error_count)
+				time.sleep(sleep_time)
+			else:
+				error_count = 0;
+				break
 
-			print '\tEmpty data, trying again...'
-			time.sleep(sleep_time)
 				
 		except Exception as e:
-			print '\tThere was an exception: {}, trying again...'.format(e);
+			error_count = error_count + 1
+			print '\tThere was an exception: {}, trying again ({})... '.format(e,error_count)
 			time.sleep(sleep_time)
+
+
 
 
 '''

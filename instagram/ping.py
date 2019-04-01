@@ -32,21 +32,28 @@ def get_following(api, user_id):
   following.sort(key=lambda x: x['username'])
   return following
 
-def is_user_following_target(api, user_id, target_user):
+def is_user_in_list(users, target_user):
   '''
-  Returns wether the user is following the target_user.
+  Returns wether the user is part of the user list.
 
-  :param api: signed in client.
-  :param user_id: The user's id from which to check following list.
-  :param target_user: The target user to check if it is in following list.
+  :param users: The list of users from which to check if target user exists.
+  :param target_user: The target user to check if it is in given user list.
       It can be either the user's id or username.
   params
   '''
-  following = get_following(api, user_id)
-  for user in following:
+  for user in users:
     if user.get('username') == target_user or user.get('pk') == target_user:
       return True
   return False
+
+
+def users_not_following_target(users, target_user):
+  result = []
+  for f in users:
+    if (not (f.get('is_private') or is_following_user(api, f.get('pk'), target_user))):
+      result.append(f)
+      # print f.get('username'), 'is not following: ', target_user
+  return result
 
 
 api = Client(user_name, password)

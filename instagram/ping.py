@@ -79,19 +79,25 @@ def lista_elements_not_in_listb(lista, listb):
     setb.add(element)
   result = usernames_not_in_container(lista, setb)
   return result
-
-
-def get_usernames_from_file(filename):
-  file = open(filename, 'r')
-  usernames = file.read().splitlines()
-  return usernames
   
 
 def get_usernames(user_list):
   usernames = []
   for user in user_list:
     usernames.append(user.get('username').encode('utf-8'))
-  return usernames;
+  return usernames
+
+
+def get_usernames_from_file(filename):
+  with open(filename, 'r') as file:
+    usernames = file.read().splitlines()
+  return usernames
+
+
+def save_usernames_to_file(filename, usernames):
+  with open(filename, 'w+') as file:
+    file.write(username)
+    file.write('\n')
 
 
 api = Client(user_name, password)

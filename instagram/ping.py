@@ -1,3 +1,4 @@
+# https://github.com/ping/instagram_private_api
 from instagram_private_api import Client, ClientCompatPatch
 
 user_name = 'michaelduartest'

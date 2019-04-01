@@ -12,11 +12,40 @@ def get_followers(api, user_id):
      users = followers_result.get('users', [])
      followers.extend(users)
      if next_max_id is None:  # No more followers left.
-     	 break
+       break
      followers_result = api.user_followers(user_id, uuid, max_id = next_max_id)
-
   followers.sort(key=lambda x: x['username'])
   return followers
+
+
+def get_following(api, user_id):
+  following = []
+  result = api.user_following(user_id, uuid)
+  while True: 
+     next_max_id = result.get('next_max_id')
+     users = result.get('users', [])
+     following.extend(users)
+     if next_max_id is None:  # No more following left.
+       break
+     result = api.user_followers(user_id, uuid, max_id = next_max_id)
+  following.sort(key=lambda x: x['username'])
+  return following
+
+def is_user_following_target(api, user_id, target_user):
+  '''
+  Returns wether the user is following the target_user.
+
+  :param api: signed in client.
+  :param user_id: The user's id from which to check following list.
+  :param target_user: The target user to check if it is in following list.
+      It can be either the user's id or username.
+  params
+  '''
+  following = get_following(api, user_id)
+  for user in following:
+    if user.get('username') == target_user or user.get('pk') == target_user:
+      return True
+  return False
 
 
 api = Client(user_name, password)

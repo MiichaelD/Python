@@ -5,6 +5,7 @@ user_name = 'michaelduartest'
 user_id = 12262693300
 uuid = '' # api.generate_uuid()
 
+
 def get_followers(api, user_id):
   followers = []
   followers_result = api.user_followers(user_id, uuid)
@@ -32,7 +33,7 @@ def get_following(api, user_id):
   following.sort(key=lambda x: x['username'])
   return following
 
-def is_user_in_list(users, target_user):
+def users_in_container(users, target_user):
   '''
   Returns wether the user is part of the user list.
 
@@ -47,17 +48,56 @@ def is_user_in_list(users, target_user):
   return False
 
 
-def users_not_following_target(users, target_user):
-  result = []
-  for f in users:
-    if (not (f.get('is_private') or is_following_user(api, f.get('pk'), target_user))):
-      result.append(f)
-      # print f.get('username'), 'is not following: ', target_user
+def users_not_following_back(followers, following):
+  followers_set = set()
+  for f in followers:
+    followers_set.add(f.get('username').encode("utf-8"))
+  result = usernames_not_in_container(get_usernames(following), followers_set)
   return result
 
 
+def usernames_not_in_container(usernames, usernames_container):
+  result = []
+  for username in usernames:
+    if username not in usernames_container:
+      result.append(username)
+  return result
+
+
+def usernames_not_following_back(follower_list, following_list):
+  '''Returns usernames in following_list which are not follower_list'''
+  followers_set = set()
+  for f in follower_list:
+    followers_set.add(f)
+  result = usernames_not_in_container(following_list, followers_set)
+  return result
+
+
+def lista_elements_not_in_listb(lista, listb):
+  setb = set()
+  for element in listb:
+    setb.add(element)
+  result = usernames_not_in_container(lista, setb)
+  return result
+
+
+def get_usernames_from_file(filename):
+  file = open(filename, 'r')
+  usernames = file.read().splitlines()
+  return usernames
+  
+
+def get_usernames(user_list):
+  usernames = []
+  for user in user_list:
+    usernames.append(user.get('username').encode('utf-8'))
+  return usernames;
+
+
 api = Client(user_name, password)
-followers = get_followers(api, mdp_user_id)
+followers = get_followers(api, user_id)
+following = get_following(api, user_id)
+old_followers = get_user_ids_from_file('followers-ids.txt')
 
 for f in followers:
   print f.get('username'), '\t', f.get('full_name')#, '\t', f.get('pk'), '\t', f.get('profile_pic_url')

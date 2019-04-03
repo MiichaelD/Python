@@ -33,9 +33,9 @@ def get_following(api, user_id):
   following.sort(key=lambda x: x['username'])
   return following
 
-def users_in_container(users, target_user):
+def user_in_container(users, target_user):
   '''
-  Returns wether the user is part of the user list.
+  Returns wether the target_user is part of the users.
 
   :param users: The list of users from which to check if target user exists.
   :param target_user: The target user to check if it is in given user list.

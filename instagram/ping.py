@@ -96,8 +96,9 @@ def get_usernames_from_file(filename):
 
 def save_usernames_to_file(filename, usernames):
   with open(filename, 'w+') as file:
-    file.write(username)
-    file.write('\n')
+    for username in usernames: 
+      file.write(username)
+      file.write('\n')
 
 
 api = Client(user_name, password)

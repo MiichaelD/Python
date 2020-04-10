@@ -3,15 +3,25 @@ import numpy as np
 class SudokuSolver(object):
   
   def __init__(self):
-    self.board = [[0,0,0,0,0,0,0,0,0],  # Row 0
-                  [0,0,0,0,0,0,0,0,0],
-                  [0,0,0,0,0,0,0,0,0],
-                  [0,0,0,0,0,0,0,0,0],
-                  [0,0,0,0,0,0,0,0,0],
-                  [0,0,0,0,0,0,0,0,0],
-                  [0,0,0,0,0,0,0,0,0],
-                  [0,0,0,0,0,0,0,0,0],
-                  [0,0,0,0,0,0,0,0,0],] # Row 8
+    self.original_board =  [[0,0,0,0,0,0,0,0,0],  # Row 0
+                            [0,0,0,0,0,0,0,0,0],
+                            [0,0,0,0,0,0,0,0,0],
+                            [0,0,0,0,0,0,0,0,0],
+                            [0,0,0,0,0,0,0,0,0],
+                            [0,0,0,0,0,0,0,0,0],
+                            [0,0,0,0,0,0,0,0,0],
+                            [0,0,0,0,0,0,0,0,0],
+                            [0,0,0,0,0,0,0,0,0],] # Row 8
+
+    self.board = [[9,5,6,0,8,0,0,0,1],  # Row 0
+                  [4,0,0,0,0,0,7,9,0],
+                  [0,3,0,4,1,9,0,0,0],
+                  [0,0,0,0,0,3,6,0,0],
+                  [0,0,0,5,0,8,0,0,0],
+                  [0,0,2,9,0,0,0,0,0],
+                  [0,0,0,0,7,6,0,2,0],
+                  [0,8,7,0,0,0,0,0,3],
+                  [1,0,0,0,9,0,8,7,4],] # Row 8
 
   def is_valid(self, row, col, num):
     # Check if number is found in same column
@@ -41,9 +51,9 @@ class SudokuSolver(object):
           for num in range(1, 10):
             if self.is_valid(r, c, num):
               self.board[r][c] = num
-              if self.solve():
+              if self.solve(stop_at_first):
                 return True
-              self.board[r][c] = 0
+              self.board[r][c] = 0 # Backtrack
           return False # Exhausted positibilities, stop.
 
     # If we reached this point it means ther were no more empty squares
@@ -59,5 +69,5 @@ class SudokuSolver(object):
 
 if __name__ == "__main__":
   solver = SudokuSolver()
-  solver.solve()
+  solver.solve(False)
 

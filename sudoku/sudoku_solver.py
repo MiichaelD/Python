@@ -47,8 +47,6 @@ class SudokuSolver(object):
           return False # Exhausted positibilities, stop.
 
     # If we reached this point it means ther were no more empty squares
-    # Alternatively, bellow we could ask user if wants more solutions and return
-    # false:
     print(np.matrix(self.board))
     if stop_at_first:
       return True

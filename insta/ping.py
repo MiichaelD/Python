@@ -89,7 +89,7 @@ def get_usernames(user_list):
   usernames = []
   for user in user_list:
     usernames.append(user.get('username').encode('utf-8'))
-  return usernames;
+  return usernames
 
 
 def get_usernames_from_file(filename):
@@ -110,10 +110,10 @@ followers = get_followers(api, mdp_user_id)
 following = get_following(api, mdp_user_id)
 
 # Getting usernames only
-follower_users = get_usernames(followers)
-following_users = get_usernames(following)
+follower_users = get_usernames(followers)  # Users following me
+following_users = get_usernames(following) # Users I follow
 
-# Comparing sub-sets.
+# Comparing sub-sets. - Read next line as: users I follow which are not following me:
 users_not_following_back = usernames_not_following_back(follower_users, following_users)
 followers_not_followed_back = usernames_not_following_back(following_users, follower_users)
 
@@ -126,8 +126,8 @@ new_followers =  usernames_not_following_back(old_followers, follower_users)
 save_usernames_to_file('insta/followers.txt', follower_users)
 
 for f in followers:
-  print f.get('username'), '\t', f.get('full_name')#, '\t', f.get('pk'), '\t', f.get('profile_pic_url')
-print 'Followers loaded: ', len(followers)
+  print(f.get('username'), '\t', f.get('full_name')) #, '\t', f.get('pk'), '\t', f.get('profile_pic_url')
+print('Followers loaded: ', len(followers))
 
-for r in result: print r.get('username')
+for r in result: print(r.get('username'))
 usernames_not_following_back(followers, old_followers)

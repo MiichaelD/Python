@@ -1,5 +1,5 @@
 # https://github.com/ping/instagram_private_api
-from instagram_private_api import Client, ClientCompatPatch
+from instagram_private_api import Client
 
 
 def get_followers(api, user_id):
@@ -88,7 +88,7 @@ def lista_elements_not_in_listb(lista, listb):
 def get_usernames(user_list):
   usernames = []
   for user in user_list:
-    usernames.append(user.get('username').encode('utf-8'))
+    usernames.append(user.get('username'))
   return usernames
 
 
@@ -103,6 +103,11 @@ def save_usernames_to_file(filename, usernames):
     for username in usernames: 
       file.write(username)
       file.write('\n')
+
+def print_users(users):
+  for f in users:
+    print(f.get('username'), '\t', f.get('full_name'), '\t', f.get('pk'))#, '\t', f.get('profile_pic_url'))
+  print('Followers loaded: ', len(users))
 
 # Getting followers and following users
 api = Client(user_name, password)
@@ -123,11 +128,6 @@ lost_followers = usernames_not_following_back(follower_users, old_followers)
 new_followers =  usernames_not_following_back(old_followers, follower_users)
 
 # Update last followers usernames in file
-save_usernames_to_file('insta/followers.txt', follower_users)
+# save_usernames_to_file('insta/followers.txt', follower_users) 
 
-for f in followers:
-  print(f.get('username'), '\t', f.get('full_name')) #, '\t', f.get('pk'), '\t', f.get('profile_pic_url')
-print('Followers loaded: ', len(followers))
-
-for r in result: print(r.get('username'))
-usernames_not_following_back(followers, old_followers)
+# print_users(followers) 
